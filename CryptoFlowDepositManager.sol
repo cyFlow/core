@@ -1,7 +1,7 @@
 pragma solidity ^0.6.12;
 pragma experimental ABIEncoderV2;
 
-import "./MomsInvestmentManagerContract.sol";
+import "./CryptoFlowInvestmentManager.sol";
 
 /**
  * The CryptoFlow Deposit Manager Contract is responsible for enabling mom to deposit her funds into the CryptoFlow system. 
@@ -46,7 +46,7 @@ contract CryptoFlowDepositManager {
         
         address cryptoFlowAddress = cryptoFlows[cryptoFlowName];
         
-        MomsInvestmentManagerContract momsInvestment = new MomsInvestmentManagerContract{value : depositAmount}(momsWallet, cryptoFlowAddress);    
+        CryptoFlowInvestmentManager momsInvestment = new CryptoFlowInvestmentManager{value : depositAmount}(momsWallet, cryptoFlowAddress);    
         
         address momsInvestmentAddress = address(momsInvestment);
         momsOpenInvestments[momsWallet].push(momsInvestmentAddress);
