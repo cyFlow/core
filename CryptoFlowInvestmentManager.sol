@@ -2,28 +2,29 @@ pragma solidity ^0.6.12;
 
 //import 
 
-//import
+import "ICFProduct.sol"; 
 
-contract InvestmentManager{         //declare contract
+contract CryptoFlowInvestmentManager{         //declare contract
+      
        address payable momsWallet;
-       address cryptoFlow;
-       CryptoFlow c;
+       address cryptoFlowAddress;
+       ICFProduct cryptoFlow;
+       
        constructor(address _momsWallet, address _cryptoFlow) public payable {
-        momsWallet = _momsWallet;
-        cryptoFlow = _cryptoFlow;
-        c=CryptoFlow(_cryptoFlow);
-        c.invest{value: msg.value}(momsWallet,msg.value);
+               momsWallet = _momsWallet;
+               cryptoFlowAddress = _cryptoFlow;
+               cryptoFlow=ICFProduct(_cryptoFlow);
+               cryptoFlow.invest{value: msg.value}(momsWallet,msg.value);
        }
     
     
         
         function earningstodate() public view returns(uint256){
-            return c.earningstodate(momsWallet);
+            return cryptoFlow.earningstodate(momsWallet);
             
         }
         function cashoutinvestment() public returns(uint256){
-            return c.cashoutinvestment(momsWallet);
-            
+            return cryptoFlow.cashoutinvestment(momsWallet);            
         }
     
 }
