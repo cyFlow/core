@@ -1,32 +1,29 @@
-pragma solidity ^0.5.2;
+pragma solidity ^0.6.12;
 
 //import 
 
 //import
 
 contract InvestmentManager{         //declare contract
-    struct Investment{              //model a investment
-        uint EarningsToDate;
-        uint amountCashedOut;
-    }
+       address payable momsWallet;
+       address cryptoFlow;
+       CryptoFlow c;
        constructor(address _momsWallet, address _cryptoFlow) public payable {
         momsWallet = _momsWallet;
         cryptoFlow = _cryptoFlow;
-
-    }
+        c=CryptoFlow(_cryptoFlow);
+        c.invest{value: msg.value}(momsWallet,msg.value);
+       }
     
-    }
-    uint constant=5;
-    mapping(uint=>EarningsToDate) public earnings;   //stores mom's investments
-        uint private amount;
-        function EarningsToDate(address momsWallet) public returns(uint256){
-            amount++;
-            earnings[amount]=EarningsToDate(amount,momsWallet);
-            return 0;
+    
+        
+        function earningstodate() public view returns(uint256){
+            return c.earningstodate(momsWallet);
+            
         }
-        function cashOutinvestment(address cryptoFlow) public returns(uint256){
-            amountCashedOut=amountCashedOut+constant;
-            return 0;
+        function cashoutinvestment() public returns(uint256){
+            return c.cashoutinvestment(momsWallet);
+            
         }
-    }
+    
 }
