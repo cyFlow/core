@@ -7,26 +7,27 @@ import './CFEnvironment.sol';
 
 contract CFBrokerManager
 {
-    mapping(string=>address) mapBroker;
+    mapping(address=>address) mapBroker;
     
     CFEnvironment  private env;
     
-    constructor(address _env) public
+    constructor() public
     {
+        address _env = address(0xc8848086E7e3eb34DEd2DE9273545064ac0EAa56);
         env = CFEnvironment(_env);
     }
 
-   modifier broker (string memory _name) {
+   modifier broker (address _name) {
         require(mapBroker[_name] != address(0x0), 'It`s not broker');
         _;
     }
 
-   modifier newbroker (string memory _name) {
+   modifier newbroker (address _name) {
         require(mapBroker[_name] == address(0x0), 'Broker with same name is exist');
         _;
     }
     
-    function isBroker(string memory _name) external view returns (bool)
+    function isBroker(address _name) external view returns (bool)
     {
         return (mapBroker[_name] != address(0x0));
     }
@@ -60,9 +61,9 @@ contract CFBrokerManager
        return checkInvest(_broker) 
            && checkWithdraw(_broker);
     }
-    function add(string memory _name, address _broker) external newbroker(_name)
+    function add(address _name, address _broker) external newbroker(_name)
     {
-        require(check(_broker), 'The broker isn`t use interface ICFBroker');
+        //require(check(_broker), 'The broker isn`t use interface ICFBroker');
         mapBroker[_name] = _broker;
     }
     
@@ -94,7 +95,7 @@ contract CFBrokerManager
          return  _broker.invest(_assets);
       }
     
-    function invest(string memory _name, CFAsset[] memory _assets) external broker(_name)
+    function invest(address _name, CFAsset[] calldata _assets) external broker(_name)
     {
        ICFBroker _broker = ICFBroker(mapBroker[_name]);
        (address _contract
@@ -114,7 +115,7 @@ contract CFBrokerManager
          return  _broker.invest(_assets);
       }
 
-    function withdraw(string memory _name, CFAsset[] memory _assets) external broker(_name)
+    function withdraw(address _name, CFAsset[] calldata _assets) external broker(_name)
     {
        ICFBroker _broker = ICFBroker(mapBroker[_name]);
        (address _contract

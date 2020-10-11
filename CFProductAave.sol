@@ -3,12 +3,13 @@ pragma experimental ABIEncoderV2;
 import './CFCommon.sol';
 import './CFEnvironment.sol';
 import './CFBrokerManeger.sol';
+import './ICFProduct.sol';
 
-contract CFProductAave
+contract CFProductAave is ICFProduct
 {
     CFEnvironment  private env;
     CFBrokerManager private brokerManager;
-    string nameBroker = 'aave';
+    address nameBroker = address(0xB72Fa7ecb92BA7D00470560a152269f96264fD08);
     address mainAsset;
     uint256 rate = 0;
     uint256 earning = 0;
@@ -22,12 +23,27 @@ contract CFProductAave
            return;
         brokerManager.add(nameBroker, _broker);
     }
-    constructor(address _env, address _brokerManager, address _broker) public
+    
+    
+    constructor() public
     {
+        address _env = address(0xc8848086E7e3eb34DEd2DE9273545064ac0EAa56);
+        address _brokerManager = address(0xC2bE374D451b14AC6aEcbAF877c95F6B772347c7);
+        address _broker = address(0xFd2d7751F84F9D86C460F7ea90645B760e58b8d9);
         env = CFEnvironment(_env);
         brokerManager = CFBrokerManager(_brokerManager);
         registProductInBroker(_broker);
         mainAsset = env.getETH();
+    }
+    
+    function setBrokerManadfer(address _brokerManager) external
+    {
+        brokerManager = CFBrokerManager(_brokerManager);
+    }
+
+    function setBroker(address _broker) external
+    {
+        registProductInBroker(_broker);
     }
     
     modifier owner (address _sender) {
@@ -35,11 +51,12 @@ contract CFProductAave
         _;
     }
     
+
     /*
       invest ETH
       input address sender and amount to invest
     */
-    function invest (address _sender, uint256 _amount) external owner(_sender)
+    function invest (address _sender, uint256 _amount) external override owner(_sender)
     {
         CFAsset memory _asset = CFAsset({asset:env.getETH(), amount:_amount});
         CFAsset[] memory _assets = new CFAsset[](1);
@@ -52,7 +69,7 @@ contract CFProductAave
       withdraw ETH
       input address sender
     */
-    function withdraw (address _sender) external owner(_sender)
+    function withdraw (address _sender) external override owner(_sender)
     {
         CFAsset memory _asset = CFAsset({asset:env.getETH(), amount:usingProducts[_sender]});
         CFAsset[] memory _assets = new CFAsset[](1);
@@ -63,7 +80,7 @@ contract CFProductAave
     /*
        How many eanoing todaty
     */
-    function getEarningsToDate(address _sender) external view returns (uint256 amount)
+    function getEarningsToDate(address _sender) external view override returns (uint256 amount)
     {
        return earning;       
     }
@@ -71,7 +88,7 @@ contract CFProductAave
     /*
        Rate of current interest    
     */
-    function getCurrentInterestRate(address _sender) external view returns (uint256 amount)
+    function getCurrentInterestRate(address _sender) external view override returns (uint256 amount)
     {
         return rate;
     }
