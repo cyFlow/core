@@ -1,29 +1,29 @@
+//SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.6.12;
 
-//import 
+import "./ICFProduct.sol"; 
 
-//import
-
-contract InvestmentManager{         //declare contract
-       address payable momsWallet;
-       address cryptoFlow;
-       CryptoFlow c;
-       constructor(address _momsWallet, address _cryptoFlow) public payable {
-        momsWallet = _momsWallet;
-        cryptoFlow = _cryptoFlow;
-        c=CryptoFlow(_cryptoFlow);
-        c.invest{value: msg.value}(momsWallet,msg.value);
-       }
+contract CryptoFlowInvestmentManager{         //declare contract
+      
+    address payable momsWallet;
+    address cryptoFlowAddress;
+    ICFProduct cryptoFlow;
+       
+    constructor(address payable _momsWallet, address _cryptoFlow) public payable {
+       momsWallet = _momsWallet;
+       cryptoFlowAddress = _cryptoFlow;
+       cryptoFlow=ICFProduct(_cryptoFlow);
+       cryptoFlow.invest{value: msg.value}(momsWallet,msg.value);
+    }
     
+    function earningstodate() public view returns(uint256){
+        return cryptoFlow.getEarningsToDate(momsWallet);
+            
+    }
     
-        
-        function earningstodate() public view returns(uint256){
-            return c.earningstodate(momsWallet);
-            
-        }
-        function cashoutinvestment() public returns(uint256){
-            return c.cashoutinvestment(momsWallet);
-            
-        }
+    function cashoutinvestment() public returns(uint256){
+        return cryptoFlow.withdraw(momsWallet);            
+    }
     
 }
+

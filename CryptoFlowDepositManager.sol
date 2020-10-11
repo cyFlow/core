@@ -1,7 +1,9 @@
+//SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.6.12;
+
 pragma experimental ABIEncoderV2;
 
-import "./MomsInvestmentManagerContract.sol";
+import "./CryptoFlowInvestmentManager.sol";
 
 /**
  * The CryptoFlow Deposit Manager Contract is responsible for enabling mom to deposit her funds into the CryptoFlow system. 
@@ -24,10 +26,10 @@ contract CryptoFlowDepositManager {
      /**
       * Register a new crypto flow when it's avalable. 
       */ 
-     function registerCryptoFlow(string memory cryptoFlowName, address cryptoFlowContractAddress) public returns (bool) { 
+     function registerCryptoFlow(string memory cryptoFlowName, address cryptoFlowContractAddress) public returns (string memory status) { 
             availableCryptoFlows.push(cryptoFlowName);
             cryptoFlows[cryptoFlowName] = cryptoFlowContractAddress;
-            return true;     
+            return "Crypto Flow Registered";     
      }
    
      /** 
@@ -40,13 +42,13 @@ contract CryptoFlowDepositManager {
      /**
      * Deposit mom's ETH into CryptoFlow 
      */ 
-    function deposit( address momsWallet, uint256 depositAmount, string memory cryptoFlowName)public payable returns (address momsInvestmentManagerContract) { 
+    function deposit( address payable momsWallet, uint256 depositAmount, string memory cryptoFlowName)public payable returns (address momsInvestmentManagerContract) { 
         require(msg.sender == momsWallet);
         require(msg.value == depositAmount);
         
         address cryptoFlowAddress = cryptoFlows[cryptoFlowName];
         
-        MomsInvestmentManagerContract momsInvestment = new MomsInvestmentManagerContract{value : depositAmount}(momsWallet, cryptoFlowAddress);    
+        CryptoFlowInvestmentManager momsInvestment = new CryptoFlowInvestmentManager{value : depositAmount}(momsWallet, cryptoFlowAddress);    
         
         address momsInvestmentAddress = address(momsInvestment);
         momsOpenInvestments[momsWallet].push(momsInvestmentAddress);

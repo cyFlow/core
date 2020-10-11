@@ -1,29 +1,44 @@
-[{
-    "constant":false,
-    "inputs":[{
-        "name":"momsWallet",
-        "type":"address"
-    },{
-        "name":"amount",
-        "type":"uint256"
-    }],
-    "name":"EarningsToDate",
-    "outputs":[],
-    "payable":true,
-    "stateMutability":"payable",
-    "type":"function"
-},{
-    "constant":true,
-    "inputs":[{
-        "name":"cryptoFlow",
-        "type":"address"
-    },{
-        "name": "amountCashedOut",
-        "type": "uint256"
-    }],
-    "name":"cashOutinvestment",
-    "outputs:[],
-    "payable":true,
-    "stateMutability":"nonpayable",
-    "type":"function"
-}]
+[
+	{
+		"inputs": [
+			{
+				"internalType": "address payable",
+				"name": "_momsWallet",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_cryptoFlow",
+				"type": "address"
+			}
+		],
+		"stateMutability": "payable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [],
+		"name": "cashoutinvestment",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "earningstodate",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]

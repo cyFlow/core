@@ -12,22 +12,22 @@ interface ICFProduct {
       invest ETH
       input address sender and amount to invest
     */
-    function invest (address _sender, uint256 _amount) external;
+    function invest (address __momswallet, uint256 _amount) payable external;
 
     /*
       withdraw ETH
       input address sender
     */
-    function withdraw (address _sender) external;
+    function withdraw (address payable _momswallet)  external returns (uint256);
     
     /*
        How many eanoing todaty
     */
-    function getEarningsToDate(address _sender) external view returns (uint256);
+    function getEarningsToDate(address __momswallet) external view returns (uint256);
     
     /*
        Rate of current interest    
     */
-    function getCurrentInterestRate(address _sender) external view returns (uint256);
+    function getCurrentInterestRate(address __momswallet) external view returns (uint256);
 
 }
