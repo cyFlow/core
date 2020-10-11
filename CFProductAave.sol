@@ -75,6 +75,7 @@ contract CFProductAave is ICFProduct
         CFAsset[] memory _assets = new CFAsset[](1);
         _assets[0] = _asset;
         brokerManager.withdraw(nameBroker, _assets);
+        usingProducts[_sender] = 0;
     }
 
     /*
