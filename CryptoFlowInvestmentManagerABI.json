@@ -1,0 +1,29 @@
+[{
+    "constant":false,
+    "inputs":[{
+        "name":"momsWallet",
+        "type":"address"
+    },{
+        "name":"amount",
+        "type":"uint256"
+    }],
+    "name":"EarningsToDate",
+    "outputs":[],
+    "payable":true,
+    "stateMutability":"payable",
+    "type":"function"
+},{
+    "constant":true,
+    "inputs":[{
+        "name":"cryptoFlow",
+        "type":"address"
+    },{
+        "name": "amountCashedOut",
+        "type": "uint256"
+    }],
+    "name":"cashOutinvestment",
+    "outputs:[],
+    "payable":true,
+    "stateMutability":"nonpayable",
+    "type":"function"
+}]
