@@ -1,4 +1,6 @@
+//SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.6.12;
+
 pragma experimental ABIEncoderV2;
 
 import "./CryptoFlowInvestmentManager.sol";
@@ -24,10 +26,10 @@ contract CryptoFlowDepositManager {
      /**
       * Register a new crypto flow when it's avalable. 
       */ 
-     function registerCryptoFlow(string memory cryptoFlowName, address cryptoFlowContractAddress) public returns (bool) { 
+     function registerCryptoFlow(string memory cryptoFlowName, address cryptoFlowContractAddress) public returns (string memory status) { 
             availableCryptoFlows.push(cryptoFlowName);
             cryptoFlows[cryptoFlowName] = cryptoFlowContractAddress;
-            return true;     
+            return "Crypto Flow Registered";     
      }
    
      /** 
@@ -40,7 +42,7 @@ contract CryptoFlowDepositManager {
      /**
      * Deposit mom's ETH into CryptoFlow 
      */ 
-    function deposit( address momsWallet, uint256 depositAmount, string memory cryptoFlowName)public payable returns (address momsInvestmentManagerContract) { 
+    function deposit( address payable momsWallet, uint256 depositAmount, string memory cryptoFlowName)public payable returns (address momsInvestmentManagerContract) { 
         require(msg.sender == momsWallet);
         require(msg.value == depositAmount);
         
